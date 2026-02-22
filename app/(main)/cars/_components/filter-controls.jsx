@@ -15,7 +15,7 @@ export const CarFilterControls = ({
   const filterSections = [
     {
       id: "make",
-      title: "Make",
+      title: "Brand",
       options: filters.makes.map((make) => ({ value: make, label: make })),
       currentValue: make,
       onChange: (value) => onFilterChange("make", value),
@@ -50,7 +50,7 @@ export const CarFilterControls = ({
     <div className="space-y-6">
       {/* Price Range */}
       <div className="space-y-4">
-        <h3 className="font-medium">Price Range</h3>
+        <h3 className="font-medium text-sm">Price Range</h3>
         <div className="px-2">
           <Slider
             min={filters.priceRange.min}

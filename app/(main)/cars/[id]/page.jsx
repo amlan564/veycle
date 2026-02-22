@@ -4,11 +4,12 @@ import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
+
   const result = await getCarById(id);
 
   if (!result.success) {
     return {
-      title: "Car Not Found | Vehiql",
+      title: "Car Not Found | Veycle",
       description: "The requested car could not be found",
     };
   }
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }) {
   const car = result.data;
 
   return {
-    title: `${car.year} ${car.make} ${car.model} | Vehiql`,
+    title: `${car.make} ${car.model} ${car.year} | Veycle`,
     description: car.description.substring(0, 160),
     openGraph: {
       images: car.images?.[0] ? [car.images[0]] : [],
@@ -25,17 +26,16 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CarDetailsPage({ params }) {
-  // Fetch car details
   const { id } = await params;
+
   const result = await getCarById(id);
 
-  // If car not found, show 404
   if (!result.success) {
     notFound();
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 md:px-28 py-12">
       <CarDetails car={result.data} testDriveInfo={result.data.testDriveInfo} />
     </div>
   );

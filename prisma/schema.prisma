@@ -10,7 +10,7 @@ datasource db {
 
 model User {
   id            String             @id @default(uuid())
-  clerkUserId   String             @unique // clerk user id
+  clerkUserId   String             @unique
   email         String             @unique
   name          String?
   imageUrl      String?
@@ -42,7 +42,7 @@ model Car {
   description       String
   status            CarStatus          @default(AVAILABLE)
   featured          Boolean            @default(false)
-  images            String[]           // Array of Supabase storage URLs
+  images            String[]           
   savedBy           UserSavedCar[]
   testDriveBookings TestDriveBooking[]
   createdAt         DateTime           @default(now())
@@ -63,13 +63,12 @@ enum CarStatus {
   SOLD
 }
 
-// Single dealership configuration, if you have multiple dealerships, you can remove default values.
 model DealershipInfo {
   id           String        @id @default(uuid())
-  name         String        @default("Vehiql Motors")
+  name         String        @default("Veycle Motors")
   address      String        @default("69 Car Street, Autoville, CA 69420") 
   phone        String        @default("+1 (555) 123-4567")
-  email        String        @default("contact@vehiql.com")
+  email        String        @default("contact@veycle.com")
   workingHours WorkingHour[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt

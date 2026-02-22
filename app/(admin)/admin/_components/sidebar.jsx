@@ -6,7 +6,6 @@ import { LayoutDashboard, Car, Calendar, Cog, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "@clerk/nextjs";
 
-// Navigation items
 const routes = [
   {
     label: "Dashboard",
@@ -39,7 +38,7 @@ export const Sidebar = () => {
       <div className="hidden md:flex h-full flex-col overflow-y-auto bg-white shadow-sm border-r">
         <div className="p-6">
           <Link href="/admin">
-            <h1 className="text-xl font-bold">Vehiql Admin</h1>
+            <h1 className="text-xl font-bold">Veycle Admin</h1>
           </Link>
         </div>
         <div className="flex flex-col w-full">

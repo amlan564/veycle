@@ -5,17 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@clerk/nextjs";
-import { AlertCircle, Calendar } from "lucide-react";
-import {
-  Car,
-  Fuel,
-  Gauge,
-  LocateFixed,
-  Share2,
-  Heart,
-  MessageSquare,
-  Currency,
-} from "lucide-react";
+import { Calculator, Calendar, MapPin } from "lucide-react";
+import { Car, Fuel, Gauge, Share2, Heart, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -46,7 +37,6 @@ export function CarDetails({ car, testDriveInfo }) {
     error: toggleError,
   } = useFetch(toggleSavedCar);
 
-  // Handle toggle result with useEffect
   useEffect(() => {
     if (toggleResult?.success) {
       setIsWishlisted(toggleResult.saved);
@@ -80,8 +70,8 @@ export function CarDetails({ car, testDriveInfo }) {
     if (navigator.share) {
       navigator
         .share({
-          title: `${car.year} ${car.make} ${car.model}`,
-          text: `Check out this ${car.year} ${car.make} ${car.model} on Vehiql!`,
+          title: `${car.make} ${car.model} ${car.year}`,
+          text: `Check out this ${car.make} ${car.model} ${car.year} on Veycle!`,
           url: window.location.href,
         })
         .catch((error) => {
@@ -135,7 +125,7 @@ export function CarDetails({ car, testDriveInfo }) {
               {car.images.map((image, index) => (
                 <div
                   key={index}
-                  className={`relative cursor-pointer rounded-md h-20 w-24 flex-shrink-0 transition ${
+                  className={`relative cursor-pointer rounded-md h-16 sm:h-20 w-20 sm:w-24 flex-shrink-0 transition overflow-hidden ${
                     index === currentImageIndex
                       ? "border-2 border-blue-600"
                       : "opacity-70 hover:opacity-100"
@@ -144,7 +134,7 @@ export function CarDetails({ car, testDriveInfo }) {
                 >
                   <Image
                     src={image}
-                    alt={`${car.year} ${car.make} ${car.model} - view ${
+                    alt={`${car.make} ${car.model} ${car.year} - view ${
                       index + 1
                     }`}
                     fill
@@ -187,19 +177,18 @@ export function CarDetails({ car, testDriveInfo }) {
             <Badge className="mb-2">{car.bodyType}</Badge>
           </div>
 
-          <h1 className="text-4xl font-bold mb-1">
-            {car.year} {car.make} {car.model}
+          <h1 className="text-xl md:text-2xl font-bold mb-1">
+            {car.make} {car.model} {car.year}
           </h1>
 
-          <div className="text-2xl font-bold text-blue-600">
+          <div className="text-2xl md:text-3xl font-bold text-blue-600">
             {formatCurrency(car.price)}
           </div>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-6">
+          <div className="flex items-center gap-8 xl:gap-12 my-6">
             <div className="flex items-center gap-2">
               <Gauge className="text-gray-500 h-5 w-5" />
-              <span>{car.mileage.toLocaleString()} miles</span>
+              <span>{car.mileage.toLocaleString()} mpg</span>
             </div>
             <div className="flex items-center gap-2">
               <Fuel className="text-gray-500 h-5 w-5" />
@@ -213,10 +202,10 @@ export function CarDetails({ car, testDriveInfo }) {
 
           <Dialog>
             <DialogTrigger className="w-full text-start">
-              <Card className="pt-5">
+              <Card className="pt-5 hover:bg-gray-50">
                 <CardContent>
-                  <div className="flex items-center gap-2 text-lg font-medium mb-2">
-                    <Currency className="h-5 w-5 text-blue-600" />
+                  <div className="flex items-center gap-2 md:text-lg font-medium mb-2">
+                    <Calculator className="h-5 w-5 text-blue-600" />
                     <h3>EMI Calculator</h3>
                   </div>
                   <div className="text-sm text-gray-600">
@@ -232,9 +221,9 @@ export function CarDetails({ car, testDriveInfo }) {
                 </CardContent>
               </Card>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-sm:max-w-[90vw] rounded-lg">
               <DialogHeader>
-                <DialogTitle>Vehiql Car Loan Calculator</DialogTitle>
+                <DialogTitle>Veycle Car Loan Calculator</DialogTitle>
                 <EmiCalculator price={car.price} />
               </DialogHeader>
             </DialogContent>
@@ -243,7 +232,7 @@ export function CarDetails({ car, testDriveInfo }) {
           {/* Request More Info */}
           <Card className="my-6">
             <CardContent className="p-4">
-              <div className="flex items-center gap-2 text-lg font-medium mb-2">
+              <div className="flex items-center gap-2 md:text-lg font-medium mb-2">
                 <MessageSquare className="h-5 w-5 text-blue-600" />
                 <h3>Have Questions?</h3>
               </div>
@@ -251,7 +240,7 @@ export function CarDetails({ car, testDriveInfo }) {
                 Our representatives are available to answer all your queries
                 about this vehicle.
               </p>
-              <a href="mailto:help@vehiql.in">
+              <a href="mailto:help@veycle.com">
                 <Button variant="outline" className="w-full">
                   Request Info
                 </Button>
@@ -268,10 +257,9 @@ export function CarDetails({ car, testDriveInfo }) {
             </Alert>
           )}
 
-          {/* Book Test Drive Button */}
           {car.status !== "SOLD" && car.status !== "UNAVAILABLE" && (
             <Button
-              className="w-full py-6 text-lg"
+              className="w-full py-6 sm:text-base md:text-lg"
               onClick={handleBookTestDrive}
               disabled={testDriveInfo.userTestDrive}
             >
@@ -279,7 +267,7 @@ export function CarDetails({ car, testDriveInfo }) {
               {testDriveInfo.userTestDrive
                 ? `Booked for ${format(
                     new Date(testDriveInfo.userTestDrive.bookingDate),
-                    "EEEE, MMMM d, yyyy"
+                    "EEEE, MMMM d, yyyy",
                   )}`
                 : "Book Test Drive"}
             </Button>
@@ -288,17 +276,15 @@ export function CarDetails({ car, testDriveInfo }) {
       </div>
 
       {/* Details & Features Section */}
-      <div className="mt-12 p-6 bg-white rounded-lg shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="mt-12 p-6 bg-gray-50 rounded-lg shadow">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
-            <h3 className="text-2xl font-bold mb-6">Description</h3>
-            <p className="whitespace-pre-line text-gray-700">
-              {car.description}
-            </p>
+            <h3 className="text-xl md:text-2xl font-bold mb-6">Description</h3>
+            <p className="text-gray-700 max-sm:text-sm text-justify">{car.description}</p>
           </div>
           <div>
-            <h3 className="text-2xl font-bold mb-6">Features</h3>
-            <ul className="grid grid-cols-1 gap-2">
+            <h3 className="text-xl md:text-2xl font-bold mb-6">Features</h3>
+            <ul className="grid grid-cols-1 gap-2 max-sm:text-sm">
               <li className="flex items-center gap-2">
                 <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
                 {car.transmission} Transmission
@@ -327,12 +313,12 @@ export function CarDetails({ car, testDriveInfo }) {
       </div>
 
       {/* Specifications Section */}
-      <div className="mt-8 p-6 bg-white rounded-lg shadow-sm">
-        <h2 className="text-2xl font-bold mb-6">Specifications</h2>
+      <div className="mt-8 p-6 bg-white rounded-lg shadow">
+        <h2 className="text-xl md:text-2xl font-bold mb-6">Specifications</h2>
         <div className="bg-gray-50 rounded-lg p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 sm:gap-y-4 gap-x-8 max-sm:text-sm">
             <div className="flex justify-between py-2 border-b">
-              <span className="text-gray-600">Make</span>
+              <span className="text-gray-600">Brand</span>
               <span className="font-medium">{car.make}</span>
             </div>
             <div className="flex justify-between py-2 border-b">
@@ -377,18 +363,20 @@ export function CarDetails({ car, testDriveInfo }) {
 
       {/* Dealership Location Section */}
       <div className="mt-8 p-6 bg-white rounded-lg shadow-sm">
-        <h2 className="text-2xl font-bold mb-6">Dealership Location</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-6">Dealership Location</h2>
         <div className="bg-gray-50 rounded-lg p-6">
-          <div className="flex flex-col md:flex-row gap-6 justify-between">
+          <div className="flex flex-col md:flex-row gap-10 sm:gap-12 justify-between">
             {/* Dealership Name and Address */}
             <div className="flex items-start gap-3">
-              <LocateFixed className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
-              <div>
-                <h4 className="font-medium">Vehiql Motors</h4>
-                <p className="text-gray-600">
+              <MapPin className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
+              <div className="max-sm:text-sm">
+                <h4 className="font-medium text-base mb-2">
+                  {testDriveInfo.dealership?.name || "Veycle Motors"}
+                </h4>
+                <p className="text-gray-600 mb-1">
                   {testDriveInfo.dealership?.address || "Not Available"}
                 </p>
-                <p className="text-gray-600 mt-1">
+                <p className="text-gray-600 mb-1">
                   Phone: {testDriveInfo.dealership?.phone || "Not Available"}
                 </p>
                 <p className="text-gray-600">
@@ -433,8 +421,7 @@ export function CarDetails({ car, testDriveInfo }) {
                           </span>
                         </div>
                       ))
-                  : // Default hours if none provided
-                    [
+                  : [
                       "Monday",
                       "Tuesday",
                       "Wednesday",
@@ -449,8 +436,8 @@ export function CarDetails({ car, testDriveInfo }) {
                           {index < 5
                             ? "9:00 - 18:00"
                             : index === 5
-                            ? "10:00 - 16:00"
-                            : "Closed"}
+                              ? "10:00 - 16:00"
+                              : "Closed"}
                         </span>
                       </div>
                     ))}

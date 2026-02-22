@@ -5,9 +5,6 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-/**
- * Get simplified filters for the car marketplace
- */
 export async function getCarFilters() {
   try {
     // Get unique makes

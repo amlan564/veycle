@@ -41,6 +41,7 @@ CREATE TABLE "Car" (
     "description" TEXT NOT NULL,
     "status" "CarStatus" NOT NULL DEFAULT 'AVAILABLE',
     "featured" BOOLEAN NOT NULL DEFAULT false,
+    "images" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -48,30 +49,12 @@ CREATE TABLE "Car" (
 );
 
 -- CreateTable
-CREATE TABLE "CarImage" (
-    "id" TEXT NOT NULL,
-    "carId" TEXT NOT NULL,
-    "url" TEXT NOT NULL,
-    "isPrimary" BOOLEAN NOT NULL DEFAULT false,
-    "order" INTEGER NOT NULL DEFAULT 0,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "CarImage_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "DealershipInfo" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
-    "postalCode" TEXT NOT NULL,
-    "country" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "website" TEXT,
-    "logoUrl" TEXT,
+    "name" TEXT NOT NULL DEFAULT 'Veycle Motors',
+    "address" TEXT NOT NULL DEFAULT '69 Car Street, Autoville, CA 69420',
+    "phone" TEXT NOT NULL DEFAULT '+1 (555) 123-4567',
+    "email" TEXT NOT NULL DEFAULT 'contact@veycle.com',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -146,9 +129,6 @@ CREATE INDEX "Car_fuelType_idx" ON "Car"("fuelType");
 CREATE INDEX "Car_featured_idx" ON "Car"("featured");
 
 -- CreateIndex
-CREATE INDEX "CarImage_carId_idx" ON "CarImage"("carId");
-
--- CreateIndex
 CREATE INDEX "WorkingHour_dealershipId_idx" ON "WorkingHour"("dealershipId");
 
 -- CreateIndex
@@ -180,9 +160,6 @@ CREATE INDEX "TestDriveBooking_bookingDate_idx" ON "TestDriveBooking"("bookingDa
 
 -- CreateIndex
 CREATE INDEX "TestDriveBooking_status_idx" ON "TestDriveBooking"("status");
-
--- AddForeignKey
-ALTER TABLE "CarImage" ADD CONSTRAINT "CarImage_carId_fkey" FOREIGN KEY ("carId") REFERENCES "Car"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "WorkingHour" ADD CONSTRAINT "WorkingHour_dealershipId_fkey" FOREIGN KEY ("dealershipId") REFERENCES "DealershipInfo"("id") ON DELETE CASCADE ON UPDATE CASCADE;

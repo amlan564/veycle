@@ -52,7 +52,6 @@ export const CarFilters = ({ filters }) => {
   const [sortBy, setSortBy] = useState(currentSortBy);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  // Update local state when URL parameters change
   useEffect(() => {
     setMake(currentMake);
     setBodyType(currentBodyType);
@@ -70,7 +69,6 @@ export const CarFilters = ({ filters }) => {
     currentSortBy,
   ]);
 
-  // Count active filters
   const activeFilterCount = [
     make,
     bodyType,
@@ -118,7 +116,27 @@ export const CarFilters = ({ filters }) => {
     filters.priceRange.max,
   ]);
 
-  // Handle filter changes
+  // newly added
+  const handleSortChange = (value) => {
+    setSortBy(value);
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value === "newest") {
+      params.delete("sortBy");
+    } else {
+      params.set("sortBy", value);
+    }
+
+    // page reset (very important)
+    params.delete("page");
+
+    const query = params.toString();
+    const url = query ? `${pathname}?${query}` : pathname;
+
+    router.push(url);
+  };
+
   const handleFilterChange = (filterName, value) => {
     switch (filterName) {
       case "make":
@@ -139,12 +157,10 @@ export const CarFilters = ({ filters }) => {
     }
   };
 
-  // Handle clearing specific filter
   const handleClearFilter = (filterName) => {
     handleFilterChange(filterName, "");
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setMake("");
     setBodyType("");
@@ -153,7 +169,6 @@ export const CarFilters = ({ filters }) => {
     setPriceRange([filters.priceRange.min, filters.priceRange.max]);
     setSortBy("newest");
 
-    // Keep search term if exists
     const params = new URLSearchParams();
     const search = searchParams.get("search");
     if (search) params.set("search", search);
@@ -165,7 +180,6 @@ export const CarFilters = ({ filters }) => {
     setIsSheetOpen(false);
   };
 
-  // Current filters object for the controls component
   const currentFilters = {
     make,
     bodyType,
@@ -210,7 +224,7 @@ export const CarFilters = ({ filters }) => {
                 />
               </div>
 
-              <SheetFooter className="sm:justify-between flex-row pt-2 border-t space-x-4 mt-auto">
+              <SheetFooter className="sm:justify-between flex-row pt-3 border-t border-gray-200 space-x-4 mt-auto">
                 <Button
                   type="button"
                   variant="outline"
@@ -230,11 +244,11 @@ export const CarFilters = ({ filters }) => {
 
       <Select
         value={sortBy}
-        onValueChange={(value) => {
-          setSortBy(value);
-          // Apply filters immediately when sort changes
-          setTimeout(() => applyFilters(), 0);
-        }}
+        // onValueChange={(value) => {
+        //   setSortBy(value);
+        //   setTimeout(() => applyFilters(), 0);
+        // }}
+        onValueChange={handleSortChange}
       >
         <SelectTrigger className="w-[180px] lg:w-full">
           <SelectValue placeholder="Sort by" />

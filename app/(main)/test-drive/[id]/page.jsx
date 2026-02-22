@@ -4,13 +4,12 @@ import { TestDriveForm } from "./_components/test-drive-form";
 
 export async function generateMetadata() {
   return {
-    title: `Book Test Drive | Vehiql`,
+    title: `Book Test Drive | Veycle`,
     description: `Schedule a test drive in few seconds`,
   };
 }
 
 export default async function TestDrivePage({ params }) {
-  // Fetch car details
   const { id } = params;
   const result = await getCarById(id);
 
@@ -20,8 +19,8 @@ export default async function TestDrivePage({ params }) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-6xl mb-6 gradient-title">Book a Test Drive</h1>
+    <div className="container mx-auto px-4 md:px-28 py-12">
+      <h1 className="text-2xl md:text-4xl mb-6 gradient-title">Book a Test Drive</h1>
       <TestDriveForm
         car={result.data}
         testDriveInfo={result.data.testDriveInfo}

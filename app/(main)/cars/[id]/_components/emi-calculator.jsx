@@ -81,20 +81,14 @@ function EmiCalculator({ price = 1000 }) {
 
   return (
     <div className="w-full max-h-[80vh] overflow-y-auto pr-1">
-      <div className="w-full">
-        <div className="flex items-center mb-6">
-          <i className="fas fa-car text-gray-900 dark:text-white text-2xl mr-3"></i>
-        </div>
-
+      <div className="w-full mt-6">
         <div className="space-y-4">
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
-            <h2 className="text-lg font-inter font-semibold text-gray-900 dark:text-white mb-3">
-              Vehicle Price
-            </h2>
+          <div className="bg-gray-100 rounded-xl p-4">
+            <h2 className="font-semibold text-gray-900 mb-3">Vehicle Price</h2>
             <div className="space-y-3">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-700 dark:text-gray-300">$</span>
+                  <span className="text-gray-700">$</span>
                 </div>
                 <input
                   type="number"
@@ -102,13 +96,13 @@ function EmiCalculator({ price = 1000 }) {
                   onChange={(e) =>
                     handleLoanAmountChange(parseFloat(e.target.value))
                   }
-                  className="w-full pl-8 pr-4 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:border-gray-900 dark:focus:border-gray-400"
+                  className="w-full pl-8 pr-4 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white text-gray-900 focus:outline-none"
                 />
               </div>
               <input
                 type="range"
                 min="1000"
-                max="150000"
+                max="300000"
                 value={loanAmount}
                 onChange={(e) =>
                   handleLoanAmountChange(parseFloat(e.target.value))
@@ -118,14 +112,12 @@ function EmiCalculator({ price = 1000 }) {
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
-            <h2 className="text-lg font-inter font-semibold text-gray-900 dark:text-white mb-3">
-              Down Payment
-            </h2>
+          <div className="bg-gray-100 rounded-xl p-4">
+            <h2 className="font-semibold text-gray-900 mb-3">Down Payment</h2>
             <div className="space-y-3">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-700 dark:text-gray-300">$</span>
+                  <span className="text-gray-700">$</span>
                 </div>
                 <input
                   type="number"
@@ -133,7 +125,7 @@ function EmiCalculator({ price = 1000 }) {
                   onChange={(e) =>
                     handleDownPaymentChange(parseFloat(e.target.value))
                   }
-                  className="w-full pl-8 pr-4 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:border-gray-900 dark:focus:border-gray-400"
+                  className="w-full pl-8 pr-4 py-2 rounded-md border border-gray-200 bg-white text-gray-900 focus:outline-none"
                 />
               </div>
               <input
@@ -146,15 +138,15 @@ function EmiCalculator({ price = 1000 }) {
                 }
                 className="w-full"
               />
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-600">
                 Down payment: {downPaymentPercent.toFixed(1)}% of vehicle price
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
-              <h2 className="text-lg font-inter font-semibold text-gray-900 dark:text-white mb-3">
+            <div className="bg-gray-100 rounded-xl p-4">
+              <h2 className="font-semibold text-gray-900 mb-3">
                 Interest Rate
               </h2>
               <div className="space-y-3">
@@ -165,10 +157,10 @@ function EmiCalculator({ price = 1000 }) {
                     onChange={(e) =>
                       handleInterestRateChange(parseFloat(e.target.value))
                     }
-                    className="w-full pr-8 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:border-gray-900 dark:focus:border-gray-400"
+                    className="w-full pl-3 pr-8 py-2 rounded-md border border-gray-200 bg-white text-gray-900 focus:outline-none"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <span className="text-gray-700 dark:text-gray-300">%</span>
+                    <span className="text-gray-700">%</span>
                   </div>
                 </div>
                 <input
@@ -185,8 +177,8 @@ function EmiCalculator({ price = 1000 }) {
               </div>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
-              <h2 className="text-lg font-inter font-semibold text-gray-900 dark:text-white mb-3">
+            <div className="bg-gray-100 rounded-xl p-4">
+              <h2 className="font-semibold text-gray-900 mb-3">
                 Loan Term
               </h2>
               <div className="space-y-3">
@@ -197,12 +189,10 @@ function EmiCalculator({ price = 1000 }) {
                     onChange={(e) =>
                       handleLoanTenureChange(parseFloat(e.target.value))
                     }
-                    className="w-full pr-12 py-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:border-gray-900 dark:focus:border-gray-400"
+                    className="w-full pl-3 pr-14 py-2 rounded-md border border-gray-200 bg-white text-gray-900 focus:outline-none"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <span className="text-gray-700 dark:text-gray-300">
-                      Years
-                    </span>
+                    <span className="text-gray-700">Years</span>
                   </div>
                 </div>
                 <input
@@ -219,69 +209,63 @@ function EmiCalculator({ price = 1000 }) {
             </div>
           </div>
 
-          {error && (
-            <div className="text-red-500 dark:text-red-400 text-sm mt-3">
-              {error}
-            </div>
-          )}
+          {error && <div className="text-red-500 text-sm mt-3">{error}</div>}
 
           {results && (
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 mt-4">
+            <div className="bg-gray-100 rounded-xl p-4 mt-4">
               <div className="text-center mb-4">
-                <div className="text-sm font-inter text-gray-700 dark:text-gray-300">
-                  Monthly Payment
-                </div>
-                <div className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
+                <div className="text-gray-700">Monthly Payment</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-1">
                   ${formatNumber(results.emi)}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white dark:bg-gray-900 p-3 rounded-lg">
-                  <div className="text-sm font-inter text-gray-700 dark:text-gray-300">
+                <div className="bg-white p-3 rounded-lg">
+                  <div className="text-sm text-gray-700">
                     Vehicle Price
                   </div>
-                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                  <div className="text-lg font-bold text-gray-900 mt-1">
                     ${formatNumber(loanAmount)}
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-900 p-3 rounded-lg">
-                  <div className="text-sm font-inter text-gray-700 dark:text-gray-300">
+                <div className="bg-white p-3 rounded-lg">
+                  <div className="text-sm text-gray-700 dark:text-gray-300">
                     Down Payment
                   </div>
-                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                  <div className="text-lg font-bold text-gray-900 mt-1">
                     ${formatNumber(results.downPayment)}
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-900 p-3 rounded-lg">
-                  <div className="text-sm font-inter text-gray-700 dark:text-gray-300">
+                <div className="bg-white p-3 rounded-lg">
+                  <div className="text-sm text-gray-700">
                     Loan Amount
                   </div>
-                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                  <div className="text-lg font-bold text-gray-900 mt-1">
                     ${formatNumber(results.loanPrincipal)}
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-900 p-3 rounded-lg">
-                  <div className="text-sm font-inter text-gray-700 dark:text-gray-300">
+                <div className="bg-white p-3 rounded-lg">
+                  <div className="text-sm text-gray-700">
                     Total Interest
                   </div>
-                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                  <div className="text-lg font-bold text-gray-900 mt-1">
                     ${formatNumber(results.totalInterest)}
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-900 p-3 rounded-lg md:col-span-2">
-                  <div className="text-sm font-inter text-gray-700 dark:text-gray-300">
+                <div className="bg-white p-3 rounded-lg md:col-span-2">
+                  <div className="text-sm text-gray-700">
                     Total Amount (Down Payment + Total Payments)
                   </div>
-                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                  <div className="text-lg font-bold text-gray-900 mt-1">
                     $
                     {formatNumber(
                       parseFloat(results.downPayment) +
-                        parseFloat(results.totalPayment)
+                        parseFloat(results.totalPayment),
                     )}
                   </div>
                 </div>
@@ -289,7 +273,7 @@ function EmiCalculator({ price = 1000 }) {
             </div>
           )}
 
-          <p className="text-sm text-gray-700 dark:text-gray-300 text-center font-inter">
+          <p className="text-sm text-gray-700 text-center">
             This is an estimate. Actual EMI may vary based on your credit score
             and lender terms.
           </p>

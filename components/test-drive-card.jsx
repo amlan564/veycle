@@ -4,7 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { format, parseISO } from "date-fns";
-import { Calendar, Car, Clock, User, Loader2, ArrowRight } from "lucide-react";
+import {
+  Calendar,
+  Car,
+  Clock,
+  User,
+  Loader2,
+  ArrowRight,
+  TriangleAlert,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,15 +38,35 @@ const formatTime = (timeString) => {
 const getStatusBadge = (status) => {
   switch (status) {
     case "PENDING":
-      return <Badge className="bg-amber-100 text-amber-800">Pending</Badge>;
+      return (
+        <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 hover:text-amber-800">
+          Pending
+        </Badge>
+      );
     case "CONFIRMED":
-      return <Badge className="bg-green-100 text-green-800">Confirmed</Badge>;
+      return (
+        <Badge className="bg-green-100 text-green-800 hover:bg-green-100 hover:text-green-800">
+          Confirmed
+        </Badge>
+      );
     case "COMPLETED":
-      return <Badge className="bg-blue-100 text-blue-800">Completed</Badge>;
+      return (
+        <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 hover:text-blue-800">
+          Completed
+        </Badge>
+      );
     case "CANCELLED":
-      return <Badge className="bg-gray-100 text-gray-800">Cancelled</Badge>;
+      return (
+        <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100 hover:text-gray-800">
+          Cancelled
+        </Badge>
+      );
     case "NO_SHOW":
-      return <Badge className="bg-red-100 text-red-800">No Show</Badge>;
+      return (
+        <Badge className="bg-red-100 text-red-800 hover:bg-red-100 hover:text-red-800">
+          No Show
+        </Badge>
+      );
     default:
       return <Badge variant="outline">{status}</Badge>;
   }
@@ -71,8 +99,8 @@ export function TestDriveCard({
         }`}
       >
         <div className="flex flex-col sm:flex-row">
-          {/* Car Image - Left */}
-          <div className="sm:w-1/4 relative h-40 sm:h-auto">
+          {/* Car Image Section */}
+          <div className="sm:w-1/3 md:w-1/4 relative h-52 sm:h-auto">
             {booking.car.images && booking.car.images.length > 0 ? (
               <div className="relative w-full h-full">
                 <Image
@@ -92,18 +120,18 @@ export function TestDriveCard({
             </div>
           </div>
 
-          {/* Booking Details - Middle */}
+          {/* Booking Details Section */}
           <div className="p-4 sm:w-1/2 sm:flex-1">
             <div className="hidden sm:block mb-2">
               {getStatusBadge(booking.status)}
             </div>
 
-            <h3 className="text-lg font-bold mb-1">
-              {booking.car.year} {booking.car.make} {booking.car.model}{" "}
+            <h3 className="text-lg sm:text-base md:text-xl font-bold mb-1">
+              {booking.car.make} {booking.car.model} {booking.car.year}
             </h3>
             {renderStatusSelector()}
 
-            <div className="space-y-2 my-2">
+            <div className="space-y-2 my-2 sm:text-sm md:text-base">
               <div className="flex items-center text-gray-600">
                 <Calendar className="h-4 w-4 mr-2" />
                 {format(new Date(booking.bookingDate), "EEEE, MMMM d, yyyy")}
@@ -113,7 +141,6 @@ export function TestDriveCard({
                 {formatTime(booking.startTime)} - {formatTime(booking.endTime)}
               </div>
 
-              {/* Show customer info in admin view */}
               {isAdmin && booking.user && (
                 <div className="flex items-center text-gray-600">
                   <User className="h-4 w-4 mr-2" />
@@ -123,21 +150,21 @@ export function TestDriveCard({
             </div>
           </div>
 
-          {/* Action Buttons - Right */}
+          {/* Action Buttons Section */}
           {showActions && (
             <div className="p-4 border-t sm:border-t-0 sm:border-l sm:w-1/4 sm:flex sm:flex-col sm:justify-center sm:items-center sm:space-y-2">
               {/* Show notes if any */}
               {booking.notes && (
-                <div className="bg-gray-50 p-2 rounded text-sm w-full">
+                <div className="bg-gray-100 px-3 py-2 rounded-md text-sm w-full mb-1">
                   <p className="font-medium">Notes:</p>
-                  <p className="text-gray-600">{booking.notes}</p>
+                  <p className="text-gray-700">{booking.notes}</p>
                 </div>
               )}
 
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full my-2 sm:mb-0"
+                className="w-full my-2"
                 asChild
               >
                 <Link
@@ -172,12 +199,17 @@ export function TestDriveCard({
       {/* Cancel Confirmation Dialog */}
       {onCancel && (
         <Dialog open={cancelDialogOpen} onOpenChange={setCancelDialogOpen}>
-          <DialogContent>
+          <DialogContent className="rounded-md max-sm:max-w-[90vw]">
             <DialogHeader>
-              <DialogTitle>Cancel Test Drive</DialogTitle>
-              <DialogDescription>
+              <div className="flex items-center gap-2">
+                <TriangleAlert className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />
+                <DialogTitle className="max-sm:text-base">
+                  Cancel Test Drive
+                </DialogTitle>
+              </div>
+              <DialogDescription className="text-left">
                 Are you sure you want to cancel your test drive for the{" "}
-                {booking.car.year} {booking.car.make} {booking.car.model}? This
+                {booking.car.make} {booking.car.model} {booking.car.year}? This
                 action cannot be undone.
               </DialogDescription>
             </DialogHeader>
@@ -189,7 +221,7 @@ export function TestDriveCard({
                   <span>
                     {format(
                       new Date(booking.bookingDate),
-                      "EEEE, MMMM d, yyyy"
+                      "EEEE, MMMM d, yyyy",
                     )}
                   </span>
                 </div>
@@ -203,7 +235,7 @@ export function TestDriveCard({
               </div>
             </div>
 
-            <DialogFooter>
+            <DialogFooter className="max-sm:gap-2">
               <Button
                 variant="outline"
                 onClick={() => setCancelDialogOpen(false)}

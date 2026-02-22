@@ -6,27 +6,26 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { checkUser } from "@/lib/checkUser";
 import Image from "next/image";
 
-const Header = async ({ isAdminPage = false }) => {
+const Header = async ({ isAdminPage }) => {
   const user = await checkUser();
   const isAdmin = user?.role === "ADMIN";
 
   return (
-    <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      <nav className="mx-auto px-4 py-4 flex items-center justify-between">
+    <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b sm:bg-gray-500 md:bg-green-500 lg:bg-orange-500 xl:bg-red-800">
+      <nav className={`${isAdminPage ? "px-6" : "px-4 md:px-16 lg:px-28"} mx-auto py-4 flex items-center justify-between`}>
         <Link href={isAdminPage ? "/admin" : "/"} className="flex">
           <Image
             src={"/logo.png"}
-            alt="Vehiql Logo"
+            alt="Veycle Logo"
             width={200}
             height={60}
-            className="h-12 w-auto object-contain"
+            className="h-12 w-auto object-contain bg-inherit"
           />
           {isAdminPage && (
             <span className="text-xs font-extralight">admin</span>
           )}
         </Link>
 
-        {/* Action Buttons */}
         <div className="flex items-center space-x-4">
           {isAdminPage ? (
             <>
@@ -79,7 +78,7 @@ const Header = async ({ isAdminPage = false }) => {
             <UserButton
               appearance={{
                 elements: {
-                  avatarBox: "w-10 h-10",
+                  avatarBox: "w-8 h-8",
                 },
               }}
             />

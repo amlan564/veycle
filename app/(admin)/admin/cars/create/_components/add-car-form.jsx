@@ -240,7 +240,7 @@ export const AddCarForm = () => {
               setUploadProgress(0);
               setImageError("");
               toast.success(
-                `Successfully uploaded ${validFiles.length} images`
+                `Successfully uploaded ${validFiles.length} images`,
               );
             }
           };
@@ -676,6 +676,7 @@ export const AddCarForm = () => {
                           onClick={() => {
                             setImagePreview(null);
                             setUploadedAiImage(null);
+                            toast.success("Image removed");
                           }}
                         >
                           Remove

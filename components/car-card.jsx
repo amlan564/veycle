@@ -18,7 +18,6 @@ export const CarCard = ({ car }) => {
   const router = useRouter();
   const [isSaved, setIsSaved] = useState(car.wishlisted);
 
-  // Use the useFetch hook
   const {
     loading: isToggling,
     fn: toggleSavedCarFn,
@@ -26,7 +25,6 @@ export const CarCard = ({ car }) => {
     error: toggleError,
   } = useFetch(toggleSavedCar);
 
-  // Handle toggle result with useEffect
   useEffect(() => {
     if (toggleResult?.success && toggleResult.saved !== isSaved) {
       setIsSaved(toggleResult.saved);
@@ -60,14 +58,14 @@ export const CarCard = ({ car }) => {
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition group">
-      <div className="relative h-48">
+      <div className="relative h-56 sm:h-46 lg:h-56">
         {car.images && car.images.length > 0 ? (
           <div className="relative w-full h-full">
             <Image
               src={car.images[0]}
               alt={`${car.make} ${car.model}`}
               fill
-              className="object-cover group-hover:scale-105 transition duration-300"
+              className="object-cover group-hover:scale-105 group-hover:cursor-pointer transition duration-300"
             />
           </div>
         ) : (
@@ -79,7 +77,7 @@ export const CarCard = ({ car }) => {
         <Button
           variant="ghost"
           size="icon"
-          className={`absolute top-2 right-2 bg-white/90 rounded-full p-1.5 ${
+          className={`absolute top-2 right-2 bg-white/80 rounded-full p-1.5 ${
             isSaved
               ? "text-red-500 hover:text-red-600"
               : "text-gray-600 hover:text-gray-900"
@@ -97,15 +95,15 @@ export const CarCard = ({ car }) => {
 
       <CardContent className="p-4">
         <div className="flex flex-col mb-2">
-          <h3 className="text-lg font-bold line-clamp-1">
+          <h3 className="text-lg sm:text-base md:text-lg font-bold line-clamp-1">
             {car.make} {car.model}
           </h3>
-          <span className="text-xl font-bold text-blue-600">
+          <span className="text-xl sm:text-lg md:text-xl font-bold text-blue-600">
             ${car.price.toLocaleString()}
           </span>
         </div>
 
-        <div className="text-gray-600 mb-2 flex items-center">
+        <div className="text-gray-600 mb-3 flex items-center sm:text-sm md:text-base">
           <span>{car.year}</span>
           <span className="mx-2">•</span>
           <span>{car.transmission}</span>
@@ -113,12 +111,12 @@ export const CarCard = ({ car }) => {
           <span>{car.fuelType}</span>
         </div>
 
-        <div className="flex flex-wrap gap-1 mb-4">
+        <div className="flex flex-wrap gap-2 mb-4">
           <Badge variant="outline" className="bg-gray-50">
             {car.bodyType}
           </Badge>
           <Badge variant="outline" className="bg-gray-50">
-            {car.mileage.toLocaleString()} miles
+            {car.mileage.toLocaleString()} mpg
           </Badge>
           <Badge variant="outline" className="bg-gray-50">
             {car.color}
@@ -129,6 +127,11 @@ export const CarCard = ({ car }) => {
           <Button
             className="flex-1"
             onClick={() => {
+              if (!isSignedIn) {
+                toast.error("Please log in to view this car");
+                return;
+              }
+
               router.push(`/cars/${car.id}`);
             }}
           >

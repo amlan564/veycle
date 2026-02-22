@@ -18,7 +18,6 @@ export function HomeSearch() {
   const [isUploading, setIsUploading] = useState(false);
   const [isImageSearchActive, setIsImageSearchActive] = useState(false);
 
-  // Use the useFetch hook for image processing
   const {
     loading: isProcessing,
     fn: processImageFn,
@@ -26,7 +25,6 @@ export function HomeSearch() {
     error: processError,
   } = useFetch(processImageSearch);
 
-  // Handle process result and errors with useEffect
   useEffect(() => {
     if (processResult?.success) {
       const params = new URLSearchParams();
@@ -38,7 +36,6 @@ export function HomeSearch() {
       if (processResult.data.color)
         params.set("color", processResult.data.color);
 
-      // Redirect to search results
       router.push(`/cars?${params.toString()}`);
     }
   }, [processResult, router]);
@@ -46,12 +43,11 @@ export function HomeSearch() {
   useEffect(() => {
     if (processError) {
       toast.error(
-        "Failed to analyze image: " + (processError.message || "Unknown error")
+        "Failed to analyze image: " + (processError.message || "Unknown error"),
       );
     }
   }, [processError]);
 
-  // Handle image upload with react-dropzone
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
     if (file) {
@@ -86,7 +82,6 @@ export function HomeSearch() {
       maxFiles: 1,
     });
 
-  // Handle text search submissions
   const handleTextSearch = (e) => {
     e.preventDefault();
     if (!searchTerm.trim()) {
@@ -97,7 +92,6 @@ export function HomeSearch() {
     router.push(`/cars?search=${encodeURIComponent(searchTerm)}`);
   };
 
-  // Handle image search submissions
   const handleImageSearch = async (e) => {
     e.preventDefault();
     if (!searchImage) {
@@ -105,7 +99,6 @@ export function HomeSearch() {
       return;
     }
 
-    // Use the processImageFn from useFetch hook
     await processImageFn(searchImage);
   };
 
@@ -116,18 +109,18 @@ export function HomeSearch() {
           <Search className="absolute left-3 w-5 h-5" />
           <Input
             type="text"
-            placeholder="Enter make, model, or use our AI Image Search..."
+            placeholder="Enter Brand, Model, or use our AI Image Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm"
+            className="pl-6 sm:pl-10 pr-12 py-6 w-full rounded-full border-gray-300 bg-white/95 backdrop-blur-sm text-xs sm:text-sm"
           />
 
           {/* Image Search Button */}
-          <div className="absolute right-[100px]">
+          <div className="absolute right-[50px] sm:right-[100px]">
             <Camera
               size={35}
               onClick={() => setIsImageSearchActive(!isImageSearchActive)}
-              className="cursor-pointer rounded-xl p-1.5"
+              className="cursor-pointer rounded-lg sm:rounded-xl p-1 sm:p-1.5 max-sm:w-7 max-sm:h-7"
               style={{
                 background: isImageSearchActive ? "black" : "",
                 color: isImageSearchActive ? "white" : "",
@@ -135,8 +128,19 @@ export function HomeSearch() {
             />
           </div>
 
-          <Button type="submit" className="absolute right-2 rounded-full">
+          <Button
+            type="submit"
+            className="absolute right-2 rounded-full hidden sm:block"
+          >
             Search
+          </Button>
+
+          {/* For Mobile Device */}
+          <Button
+            type="submit"
+            className="absolute right-2 w-8 h-8 rounded-full flex items-center justify-center sm:hidden"
+          >
+            <Search />
           </Button>
         </div>
       </form>
@@ -193,8 +197,8 @@ export function HomeSearch() {
                 {isUploading
                   ? "Uploading..."
                   : isProcessing
-                  ? "Analyzing image..."
-                  : "Search with this Image"}
+                    ? "Analyzing image..."
+                    : "Search with this Image"}
               </Button>
             )}
           </form>

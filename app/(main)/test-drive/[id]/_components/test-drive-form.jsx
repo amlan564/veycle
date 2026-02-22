@@ -96,10 +96,10 @@ export function TestDriveForm({ car, testDriveInfo }) {
         date: format(bookingResult?.data?.bookingDate, "EEEE, MMMM d, yyyy"),
         timeSlot: `${format(
           parseISO(`2022-01-01T${bookingResult?.data?.startTime}`),
-          "h:mm a"
+          "h:mm a",
         )} - ${format(
           parseISO(`2022-01-01T${bookingResult?.data?.endTime}`),
-          "h:mm a"
+          "h:mm a",
         )}`,
         notes: bookingResult?.data?.notes,
       });
@@ -114,7 +114,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
   useEffect(() => {
     if (bookingError) {
       toast.error(
-        bookingError.message || "Failed to book test drive. Please try again."
+        bookingError.message || "Failed to book test drive. Please try again.",
       );
     }
   }, [bookingError]);
@@ -127,7 +127,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
 
     // Find working hours for the selected day
     const daySchedule = dealership.workingHours.find(
-      (day) => day.dayOfWeek === selectedDayOfWeek
+      (day) => day.dayOfWeek === selectedDayOfWeek,
     );
 
     if (!daySchedule || !daySchedule.isOpen) {
@@ -182,7 +182,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
 
     // Find working hours for the day
     const daySchedule = dealership?.workingHours?.find(
-      (schedule) => schedule.dayOfWeek === dayOfWeek
+      (schedule) => schedule.dayOfWeek === dayOfWeek,
     );
 
     // Disable if dealership is closed on this day
@@ -192,7 +192,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
   // Submit handler
   const onSubmit = async (data) => {
     const selectedSlot = availableTimeSlots.find(
-      (slot) => slot.id === data.timeSlot
+      (slot) => slot.id === data.timeSlot,
     );
 
     if (!selectedSlot) {
@@ -217,17 +217,16 @@ export function TestDriveForm({ car, testDriveInfo }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {/* Left Column - Car Summary */}
+      {/*Car Details Section */}
       <div className="md:col-span-1">
         <Card>
           <CardContent className="p-6">
             <h2 className="text-xl font-bold mb-4">Car Details</h2>
-
             <div className="aspect-video rounded-lg overflow-hidden relative mb-4">
               {car.images && car.images.length > 0 ? (
                 <img
                   src={car.images[0]}
-                  alt={`${car.year} ${car.make} ${car.model}`}
+                  alt={`${car.make} ${car.model} ${car.year}`}
                   className="object-cover w-full h-full"
                 />
               ) : (
@@ -238,7 +237,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
             </div>
 
             <h3 className="text-lg font-bold">
-              {car.year} {car.make} {car.model}
+              {car.make} {car.model} {car.year}
             </h3>
 
             <div className="mt-2 text-xl font-bold text-blue-600">
@@ -249,7 +248,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
               <div className="flex justify-between py-1 border-b">
                 <span>Mileage</span>
                 <span className="font-medium">
-                  {car.mileage.toLocaleString()} miles
+                  {car.mileage.toLocaleString()} mpg
                 </span>
               </div>
               <div className="flex justify-between py-1 border-b">
@@ -272,13 +271,13 @@ export function TestDriveForm({ car, testDriveInfo }) {
           </CardContent>
         </Card>
 
-        {/* Dealership Info */}
+        {/* Dealership Info Section */}
         <Card className="mt-6">
           <CardContent className="p-6">
             <h2 className="text-xl font-bold mb-4">Dealership Info</h2>
             <div className="text-sm">
-              <p className="font-medium">
-                {dealership?.name || "Vehiql Motors"}
+              <p className="font-medium text-base">
+                {dealership?.name || "Veycle Motors"}
               </p>
               <p className="text-gray-600 mt-1">
                 {dealership?.address || "Address not available"}
@@ -319,7 +318,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
                             variant="outline"
                             className={cn(
                               "w-full justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -371,8 +370,8 @@ export function TestDriveForm({ car, testDriveInfo }) {
                               !selectedDate
                                 ? "Please select a date first"
                                 : availableTimeSlots.length === 0
-                                ? "No available slots on this date"
-                                : "Select a time slot"
+                                  ? "No available slots on this date"
+                                  : "Select a time slot"
                             }
                           />
                         </SelectTrigger>
@@ -406,7 +405,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
                     <Textarea
                       {...field}
                       placeholder="Any specific questions or requests for your test drive?"
-                      className="min-h-24"
+                      className="min-h-24 text-sm"
                     />
                   )}
                 />
@@ -453,20 +452,20 @@ export function TestDriveForm({ car, testDriveInfo }) {
 
       {/* Confirmation Dialog */}
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="max-w-md max-sm:max-w-[85vw] rounded-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
+            <DialogTitle className="flex items-center gap-2 max-sm:text-sm">
+              <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
               Test Drive Booked Successfully
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-left max-sm:text-sm">
               Your test drive has been confirmed with the following details:
             </DialogDescription>
           </DialogHeader>
 
           {bookingDetails && (
             <div className="py-4">
-              <div className="space-y-3">
+              <div className="space-y-3 max-sm:text-sm">
                 <div className="flex justify-between">
                   <span className="font-medium">Car:</span>
                   <span>
@@ -483,7 +482,7 @@ export function TestDriveForm({ car, testDriveInfo }) {
                 </div>
                 <div className="flex justify-between">
                   <span className="font-medium">Dealership:</span>
-                  <span>{dealership?.name || "Vehiql Motors"}</span>
+                  <span>{dealership?.name || "Veycle Motors"}</span>
                 </div>
               </div>
 
