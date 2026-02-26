@@ -1,0 +1,42 @@
+import { getCarById } from "@/actions/car-listing";
+import { CarDetails } from "./_components/car-details";
+import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+
+  const result = await getCarById(id);
+
+  if (!result.success) {
+    return {
+      title: "Car Not Found | Veycle",
+      description: "The requested car could not be found",
+    };
+  }
+
+  const car = result.data;
+
+  return {
+    title: `${car.make} ${car.model} ${car.year} | Veycle`,
+    description: car.description.substring(0, 160),
+    openGraph: {
+      images: car.images?.[0] ? [car.images[0]] : [],
+    },
+  };
+}
+
+export default async function CarDetailsPage({ params }) {
+  const { id } = await params;
+
+  const result = await getCarById(id);
+
+  if (!result.success) {
+    notFound();
+  }
+
+  return (
+    <div className="px-4 md:px-16 2xl:px-28 py-12">
+      <CarDetails car={result.data} testDriveInfo={result.data.testDriveInfo} />
+    </div>
+  );
+}
