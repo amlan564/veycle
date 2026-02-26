@@ -2,7 +2,7 @@
 ## Veycle – An AI-Powered Car Platform
 
 
-Veycle is a modern full-stack AI-powered car platform built with Next.js and a clean, responsive UI using Shadcn UI and Tailwind CSS. It allows users to explore luxury cars, book test drives, and purchase vehicles with the help of advanced AI features powered by Gemini AI.
+This is a modern full-stack AI-powered car platform built with Next.js and a clean, responsive UI using Shadcn UI and Tailwind CSS. It allows users to explore luxury cars, book test drives, and purchase vehicles with the help of advanced AI features powered by Gemini AI.
 
 The platform includes AI-based image recognition that enables users to upload a car image and instantly check whether that specific car model is available on the website. For admins, the system supports AI-assisted car listing, where uploading a car image automatically analyzes the image and generates car details such as model, brand, and specifications, making car management faster and smarter.
 
